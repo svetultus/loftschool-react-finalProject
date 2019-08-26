@@ -2,7 +2,7 @@ import { authRequest, authSuccess, authFailure } from "./actions";
 import { authUser } from "./api.js";
 import { take, takeLatest, put, call } from "redux-saga/effects";
 
-function* fetchAuthWatcher() {
+function* fetchAuthWatcher(action) {
   yield takeLatest(authRequest, fetchAuthFlow);
 }
 

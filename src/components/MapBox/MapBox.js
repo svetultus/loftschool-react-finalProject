@@ -1,26 +1,26 @@
 import React, { PureComponent } from "react";
 import styles from "./MapBox.css";
-// import { getIsAuthorized, authRequest, getUser } from "../../modules/Auth";
+import { getMap, mapRequest } from "../../modules/MapBox";
 import { connect } from "react-redux";
-// import { withRouter} from "react-router-dom";
-// import Input from "../Input";
-// import { user } from "./authData";
-
-// import TextField from "@material-ui/core/TextField";
-// import Button from "@material-ui/core/Button";
-
+import { withRouter } from "react-router-dom";
 import { mapInit } from "../../modules/MapBox";
 
+const MapStateToProps = state => ({
+  map: getMap(state)
+});
+
+const MapDispatchToProps = { mapRequest };
+
 class MapBox extends React.PureComponent {
-  map = null;
   mapContainer = React.createRef();
 
   componentDidMount() {
-    this.map = mapInit(this.mapContainer);
+    console.log("componentDidMount");
+    this.props.mapRequest(this.mapContainer);
   }
 
   componentWillUnmount() {
-    if (this.map) this.map.remove();
+    if (this.props.map) this.props.map.remove();
   }
 
   render() {
@@ -28,4 +28,7 @@ class MapBox extends React.PureComponent {
   }
 }
 
-export default MapBox;
+export default connect(
+  MapStateToProps,
+  MapDispatchToProps
+)(withRouter(MapBox));
