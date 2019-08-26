@@ -3,15 +3,37 @@ import styles from "./Login.module.css";
 import { getIsAuthorized, authRequest, getUser } from "../../modules/Auth";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
-import Input from "../Input";
 import { user } from "./authData";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
+const MapStateToProps = state => ({
+  isAuthorized: getIsAuthorized(state),
+  user: getUser(state)
+});
+const MapDispatchToProps = { authRequest };
+
 class Login extends PureComponent {
+  state = {
+    name: user.name,
+    password: user.password
+  };
   input = React.createRef();
 
+  handleChange = e => {
+    switch (e.target.name) {
+      case "userName":
+        this.setState({ name: e.target.value });
+        break;
+      case "userPassword":
+        this.setState({ password: e.target.value });
+        break;
+
+      default:
+        break;
+    }
+  };
   onSubmit = event => {
     event.preventDefault();
     const { authRequest } = this.props;
@@ -40,6 +62,8 @@ class Login extends PureComponent {
             placeholder="Имя"
             label="Имя"
             type="text"
+            value={this.state.name}
+            onChange={this.handleChange}
           />
           <TextField
             name="userPassword"
@@ -48,6 +72,8 @@ class Login extends PureComponent {
             label="Пароль"
             type="password"
             autoComplete="current-password"
+            value={this.state.password}
+            onChange={this.handleChange}
           />
           <Button variant="contained" type="submit">
             Войти
@@ -59,9 +85,6 @@ class Login extends PureComponent {
 }
 
 export default connect(
-  state => ({
-    isAuthorized: getIsAuthorized(state),
-    user: getUser(state)
-  }),
-  { authRequest }
+  MapStateToProps,
+  MapDispatchToProps
 )(withRouter(Login));

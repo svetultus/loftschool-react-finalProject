@@ -7,13 +7,14 @@ import React from "react";
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import PrivateRoute from "../PrivateRoute";
 import Login from "../Login";
+import MapBox from "../MapBox";
 
 export default () => {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/login" component={Login} />
-        {/* <PrivateRoute path="/map" component={Map}}/> */}
+        <PrivateRoute path="/map" component={MapBox} />
         <Redirect path="/" exact to="/login" />
       </Switch>
     </BrowserRouter>

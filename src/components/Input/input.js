@@ -1,8 +1,8 @@
-import React, { PureComponent } from 'react';
-import styles from './input.module.css';
-import cx from 'classnames';
+import React, { PureComponent } from "react";
+import styles from "./Input.module.css";
+import cx from "classnames";
 
-class input extends PureComponent {
+class Input extends PureComponent {
   input = React.createRef();
 
   focus = () => {
@@ -24,4 +24,4 @@ class input extends PureComponent {
   }
 }
 
-export default input;
+export default Input;
