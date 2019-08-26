@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import styles from "./Login.module.css";
-import { getIsAuthorized, authRequest, getUser } from "../../modules/Auth";
+import { getIsAuthorized, authRequest } from "../../modules/Auth";
+import { getUserData } from "../../modules/User";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import { user } from "./authData";
@@ -10,7 +11,7 @@ import Button from "@material-ui/core/Button";
 
 const MapStateToProps = state => ({
   isAuthorized: getIsAuthorized(state),
-  user: getUser(state)
+  userProfile: getUserData(state)
 });
 const MapDispatchToProps = { authRequest };
 
