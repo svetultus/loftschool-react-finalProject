@@ -1,10 +1,18 @@
-import { mapRequest, mapSuccess, mapFailure } from "./actions";
-import { mapInit } from "./api.js";
+import {
+  mapRequest,
+  mapSuccess,
+  mapFailure,
+  addressListRequest,
+  addressListSuccess,
+  addressListFailure
+} from "./actions";
+import { mapInit, getAddressList } from "./api.js";
 import { take, takeEvery, takeLatest, put, call } from "redux-saga/effects";
 import { apiKey } from "./apiKey.js";
 
 function* fetchMapWatcher(action) {
   yield takeLatest(mapRequest, fetchMapFlow);
+  yield takeLatest(addressListRequest, fetchAddressListFlow);
 }
 
 function* fetchMapFlow(action) {
@@ -12,10 +20,22 @@ function* fetchMapFlow(action) {
 
   try {
     const map = yield call(mapInit, mapContainer, apiKey);
-    if (map) yield put(mapSuccess(map));
-    else throw new Error(map.error);
-  } catch (err) {
-    yield put(mapFailure(err.message));
+    if (map) {
+      yield put(mapSuccess(map));
+      yield put(addressListRequest());
+    } else throw new Error(map.error);
+  } catch (error) {
+    yield put(mapFailure(error.message));
+  }
+}
+
+function* fetchAddressListFlow(action) {
+  try {
+    const addresses = yield call(getAddressList);
+    console.log(addresses);
+    if (addresses) yield put(addressListSuccess(addresses));
+  } catch (error) {
+    yield put(addressListFailure(error.message));
   }
 }
 export default fetchMapWatcher;

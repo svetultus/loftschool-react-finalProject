@@ -9,3 +9,9 @@ export const mapInit = (mapContainer, apiKey) => {
     zoom: 15
   });
 };
+
+export const getAddressList = () => {
+  return fetch("https://loft-taxi.glitch.me/addressList").then(response => {
+    return response.status !== 200 ? Promise.reject(response) : response.json();
+  });
+};

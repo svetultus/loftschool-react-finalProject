@@ -1,12 +1,13 @@
 import React, { PureComponent } from "react";
 import styles from "./MapBox.css";
-import { getMap, mapRequest } from "../../modules/MapBox";
+import { getMap, getAddressList, mapRequest } from "../../modules/MapBox";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { mapInit } from "../../modules/MapBox";
 
 const MapStateToProps = state => ({
-  map: getMap(state)
+  map: getMap(state),
+  addressList: getAddressList(state)
 });
 
 const MapDispatchToProps = { mapRequest };
