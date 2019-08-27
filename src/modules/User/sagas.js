@@ -11,7 +11,6 @@ function* fetchUserFlow(action) {
 
   try {
     const result = yield call(getUserData, userName);
-    debugger;
     if (result.success) yield put(userSuccess(result));
     else throw new Error(result.error);
   } catch (err) {

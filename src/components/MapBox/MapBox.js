@@ -19,12 +19,11 @@ class MapBox extends React.PureComponent {
   mapContainer = React.createRef();
 
   componentDidMount() {
-    console.log("componentDidMount");
     this.props.mapRequest(this.mapContainer);
   }
 
   componentWillUnmount() {
-    if (this.props.map) this.props.map.remove();
+    // if (this.props.map) this.props.map.remove();
   }
 
   render() {

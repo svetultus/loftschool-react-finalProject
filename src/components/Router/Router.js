@@ -6,17 +6,37 @@
 import React from "react";
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import PrivateRoute from "../PrivateRoute";
+import Header from "../Header";
 import Login from "../Login";
 import MapBox from "../MapBox";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
+import styles from "./Router.module.css";
 
 export default () => {
   return (
     <BrowserRouter>
-      <Switch>
-        <Route path="/login" component={Login} />
-        <PrivateRoute path="/map" component={MapBox} />
-        <Redirect path="/" exact to="/login" />
-      </Switch>
+      <Grid
+        alignItems="stretch"
+        container={true}
+        direction="column"
+        className={styles.grid}
+      >
+        <Container>
+          <Header></Header>
+        </Container>
+
+        <Container className={styles.container_main}>
+          <Switch>
+            <Route path="/login" component={Login} />
+            <PrivateRoute path="/map" component={MapBox} />
+            <PrivateRoute path="/profile" component={Login} />
+            <PrivateRoute path="/logout" component={Login} />
+            <Redirect path="/" exact to="/login" />
+          </Switch>
+        </Container>
+      </Grid>
     </BrowserRouter>
   );
 };

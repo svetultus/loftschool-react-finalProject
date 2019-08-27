@@ -1,6 +1,11 @@
 import { combineReducers } from "redux";
 import { handleActions } from "redux-actions";
-import { authRequest, authSuccess, authFailure } from "./actions";
+import {
+  authRequest,
+  authSuccess,
+  authFailure,
+  logoutRequest
+} from "./actions";
 import { createSelector } from "reselect";
 
 // const user = handleActions(
@@ -15,7 +20,8 @@ const isAuthorized = handleActions(
   {
     [authRequest]: (state, action) => false,
     [authSuccess]: (state, action) => true,
-    [authFailure]: (state, action) => false
+    [authFailure]: (state, action) => false,
+    [logoutRequest]: state => false
   },
   false
 );
