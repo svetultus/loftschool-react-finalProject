@@ -5,9 +5,12 @@ import { getUserData, getIsPayable } from "../../modules/User";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { mapInit } from "../../modules/MapBox";
+import MapForm from "../MapForm";
+import Container from "@material-ui/core/Container";
+import Box from "@material-ui/core/Box";
 
 const MapStateToProps = state => ({
-  map: getMap(state),
+  // map: getMap(state),
   addressList: getAddressList(state),
   userProfile: getUserData(state),
   userIsPayable: getIsPayable(state)
@@ -27,7 +30,14 @@ class MapBox extends React.PureComponent {
   }
 
   render() {
-    return <div ref={this.mapContainer} />;
+    return (
+      <React.Fragment>
+        <Box>
+          <div ref={this.mapContainer} />
+        </Box>
+        <MapForm></MapForm>
+      </React.Fragment>
+    );
   }
 }
 

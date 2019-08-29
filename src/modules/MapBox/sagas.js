@@ -29,7 +29,7 @@ function* fetchMapFlow(action) {
   try {
     const map = yield call(mapInit, mapContainer, apiKey);
     if (map) {
-      yield put(mapSuccess(map));
+      //   yield put(mapSuccess(map));
       yield put(addressListRequest());
       const user = yield select(getUserData);
       if (user && user.name) yield put(userRequest(user.name));

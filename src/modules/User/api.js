@@ -2,18 +2,16 @@ export const getUserData = userName => {
   // fetch("").then(response => {
   //   return response.status === 200 ? response.json() : Promise.reject(response);
   // });
-  const { cardName, cardNumber, expDate, cvv } = {
-    cardName: "cardName",
-    cardNumber: "cardNumber",
-    expDate: "expDate",
-    cvv: "cvv"
-  };
-  let testUser = { name: userName, cardName, cardNumber, expDate, cvv };
+  // const { cardName, cardNumber, expDate, cvv } = {
+  //   cardName: "cardName",
+  //   cardNumber: "cardNumber",
+  //   expDate: "expDate",
+  //   cvv: null
+  // };
+  // let testUser = { name: userName, cardName, cardNumber, expDate, cvv };
 
   let storage = localStorage;
-  storage.setItem("loftTaxi1278", JSON.stringify(testUser));
-  let data = storage.getItem("loftTaxi1278");
-  let result;
+  let data = storage.getItem("loftTaxiUser");
   if (data) {
     return {
       success: true,

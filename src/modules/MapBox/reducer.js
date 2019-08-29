@@ -12,11 +12,8 @@ import { createSelector } from "reselect";
 
 const map = handleActions(
   {
-    [mapRequest]: (state, action) => {
-      console.log("mapRequest");
-      return null;
-    },
-    [mapSuccess]: (state, action) => ({ ...state, map: action.payload }),
+    [mapRequest]: (state, action) => null,
+    // [mapSuccess]: (state, action) => ({ ...state, map: action.payload }),
     [mapFailure]: (state, action) => null
   },
   null

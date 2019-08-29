@@ -15,18 +15,15 @@ const MapDispatchToProps = { logoutRequest };
 class Header extends PureComponent {
   handleClick = e => {
     e.preventDefault();
-    debugger;
     const { isAuthorized, logoutRequest } = this.props;
-    console.log("isAuthorized", isAuthorized);
     if (isAuthorized) logoutRequest();
-    console.log("isAuthorized", isAuthorized);
   };
 
   render() {
     const { className, isAuthorized, ...rest } = this.props;
 
     return (
-      <AppBar>
+      <AppBar position="static">
         <h2>Loft Taxi</h2>
         <nav>
           <Link to="/map" replace>
