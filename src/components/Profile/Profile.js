@@ -68,6 +68,7 @@ class Profile extends PureComponent {
     return errors;
   };
   render() {
+    const { userName, cardNumber, cardName, expDate, cvv } = this.state;
     return (
       <div>
         <h1>Профиль</h1>
@@ -76,11 +77,11 @@ class Profile extends PureComponent {
           onSubmit={this.onSubmit}
           validate={this.validate}
           initialValues={{
-            userName: "",
-            cardName: "",
-            cardNumber: "",
-            expDate: "",
-            cvv: ""
+            userName: userName,
+            cardName: cardName,
+            cardNumber: cardNumber,
+            expDate: expDate,
+            cvv: cvv
           }}
           render={({
             handleSubmit,

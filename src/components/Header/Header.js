@@ -1,11 +1,10 @@
 import React, { PureComponent } from "react";
-import styles from "./Header.module.css";
 import cx from "classnames";
-import { Link } from "react-router-dom";
-import { getIsAuthorized, logoutRequest } from "../../modules/Auth";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import AppBar from "@material-ui/core/AppBar";
+import styles from "./Header.module.css";
+import { getIsAuthorized, logoutRequest } from "../../modules/Auth";
+import { AppBar } from "@material-ui/core/";
 
 const MapStateToProps = state => ({
   isAuthorized: getIsAuthorized(state)
