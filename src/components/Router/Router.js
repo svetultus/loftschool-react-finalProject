@@ -20,21 +20,32 @@ export default () => {
     <BrowserRouter>
       <Grid
         alignItems="stretch"
+        alignContent="stretch"
         container={true}
         direction="column"
         className={styles.grid}
         justify="space-between"
+        wrap="nowrap"
       >
-        <Header></Header>
+        <Grid item>
+          <Header></Header>
+        </Grid>
 
         {/* <Container className={styles.container_main}> */}
-        <Switch>
-          <Route path="/login" component={Login} />
-          <PrivateRoute path="/map" component={MapBox} />
-          <PrivateRoute path="/profile" component={Profile} />
-          {/* <PrivateRoute path="/logout" component={Login} /> */}
-          <Redirect path="/" exact to="/login" />
-        </Switch>
+        <Grid
+          item
+          container
+          direction="column"
+          className={styles.container_main}
+        >
+          <Switch>
+            <Route path="/login" component={Login} />
+            <PrivateRoute path="/map" component={MapBox} />
+            <PrivateRoute path="/profile" component={Profile} />
+            {/* <PrivateRoute path="/logout" component={Login} /> */}
+            <Redirect path="/" exact to="/login" />
+          </Switch>
+        </Grid>
         {/* </Container> */}
       </Grid>
     </BrowserRouter>

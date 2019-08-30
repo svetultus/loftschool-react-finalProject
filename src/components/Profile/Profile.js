@@ -4,8 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import cx from "classnames";
 import { connect } from "react-redux";
 import { Form, Field } from "react-final-form";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
+import { TextField, Button, Grid } from "@material-ui/core/";
 import {
   userSuccess,
   checkUserIsPayable,
@@ -28,16 +27,14 @@ class Profile extends PureComponent {
   };
 
   onSubmit = e => {
-    e.preventDefault();
-
-    const { userName, cardNumber, cardName, expDate, cvv } = e.target;
+    const { userName, cardNumber, cardName, expDate, cvv } = e;
     const user = {
       user: {
-        name: userName.value,
-        cardName: cardName.value,
-        cardNumber: cardNumber.value,
-        expDate: expDate.value,
-        cvv: cvv.value
+        name: userName,
+        cardName: cardName,
+        cardNumber: cardNumber,
+        expDate: expDate,
+        cvv: cvv
       }
     };
 
@@ -52,7 +49,7 @@ class Profile extends PureComponent {
 
   validate = values => {
     const errors = {};
-    console.log("validate");
+
     if (!values.userName) {
       errors.userName = "Имя пользователя должно быть заполнено";
     }
@@ -72,7 +69,7 @@ class Profile extends PureComponent {
   };
   render() {
     return (
-      <React.Fragment>
+      <div>
         <h1>Профиль</h1>
         <h2>Способ оплаты</h2>
         <Form
@@ -95,118 +92,126 @@ class Profile extends PureComponent {
           }) => {
             return (
               <form onSubmit={handleSubmit}>
-                <Field name="userName">
-                  {({ input, meta }) => {
-                    return (
-                      <React.Fragment>
-                        <TextField
-                          {...input}
-                          placeholder="Имя владельца"
-                          label="Имя владельца"
-                          type="text"
-                          required={true}
-                          name={input.name}
-                          value={input.value}
-                          onChange={input.onChange}
-                        />
-                        {meta.error && meta.touched && (
-                          <div className="error">{meta.error}</div>
-                        )}
-                      </React.Fragment>
-                    );
-                  }}
-                </Field>
-                <Field name="cardName">
-                  {({ input, meta }) => {
-                    return (
-                      <React.Fragment>
-                        <TextField
-                          {...input}
-                          placeholder="Вид карты"
-                          label="Вид карты"
-                          type="text"
-                          required={true}
-                          name={input.name}
-                          value={input.value}
-                          onChange={input.onChange}
-                        />
-                        {meta.error && meta.touched && (
-                          <div className="error">{meta.error}</div>
-                        )}
-                      </React.Fragment>
-                    );
-                  }}
-                </Field>
-                <Field name="cardNumber">
-                  {({ input, meta }) => {
-                    return (
-                      <React.Fragment>
-                        <TextField
-                          {...input}
-                          placeholder="Номер карты"
-                          label="Номер карты"
-                          type="text"
-                          required={true}
-                          name={input.name}
-                          value={input.value}
-                          onChange={input.onChange}
-                        />
-                        {meta.error && meta.touched && (
-                          <div className="error">{meta.error}</div>
-                        )}
-                      </React.Fragment>
-                    );
-                  }}
-                </Field>
-                <Field name="expDate">
-                  {({ input, meta }) => {
-                    return (
-                      <React.Fragment>
-                        <TextField
-                          {...input}
-                          label="Дата окончания действия"
-                          type="date"
-                          required={true}
-                          name={input.name}
-                          value={input.value}
-                          onChange={input.onChange}
-                        />
-                        {meta.error && meta.touched && (
-                          <div className="error">{meta.error}</div>
-                        )}
-                      </React.Fragment>
-                    );
-                  }}
-                </Field>
-                <Field name="cvv">
-                  {({ input, meta }) => {
-                    return (
-                      <React.Fragment>
-                        <TextField
-                          {...input}
-                          placeholder="CVV"
-                          label="CVV"
-                          type="text"
-                          required={true}
-                          name={input.name}
-                          value={input.value}
-                          onChange={input.onChange}
-                        />
-                        {meta.error && meta.touched && (
-                          <div className="error">{meta.error}</div>
-                        )}
-                      </React.Fragment>
-                    );
-                  }}
-                </Field>
-                <Button type="submit" disabled={submitting || pristine}>
-                  Сохранить
-                </Button>
+                <Grid wrap="nowrap" direction="column" container>
+                  <Field name="userName">
+                    {({ input, meta }) => {
+                      return (
+                        <div>
+                          <TextField
+                            {...input}
+                            placeholder="Имя владельца"
+                            label="Имя владельца"
+                            type="text"
+                            required={true}
+                            fullWidth={true}
+                            name={input.name}
+                            value={input.value}
+                            onChange={input.onChange}
+                          />
+                          {meta.error && meta.touched && (
+                            <div className="error">{meta.error}</div>
+                          )}
+                        </div>
+                      );
+                    }}
+                  </Field>
+                  <Field name="cardName">
+                    {({ input, meta }) => {
+                      return (
+                        <div>
+                          <TextField
+                            {...input}
+                            placeholder="Вид карты"
+                            label="Вид карты"
+                            type="text"
+                            required={true}
+                            fullWidth={true}
+                            name={input.name}
+                            value={input.value}
+                            onChange={input.onChange}
+                          />
+                          {meta.error && meta.touched && (
+                            <div className="error">{meta.error}</div>
+                          )}
+                        </div>
+                      );
+                    }}
+                  </Field>
+                  <Field name="cardNumber">
+                    {({ input, meta }) => {
+                      return (
+                        <div>
+                          <TextField
+                            {...input}
+                            placeholder="Номер карты"
+                            label="Номер карты"
+                            type="text"
+                            required={true}
+                            fullWidth={true}
+                            name={input.name}
+                            value={input.value}
+                            onChange={input.onChange}
+                          />
+                          {meta.error && meta.touched && (
+                            <div className="error">{meta.error}</div>
+                          )}
+                        </div>
+                      );
+                    }}
+                  </Field>
+                  <Field name="expDate">
+                    {({ input, meta }) => {
+                      return (
+                        <div>
+                          <TextField
+                            {...input}
+                            hiddenlabel="Дата окончания действия"
+                            type="date"
+                            required={true}
+                            fullWidth={true}
+                            placeholder=""
+                            name={input.name}
+                            value={input.value}
+                            onChange={input.onChange}
+                          />
+                          {meta.error && meta.touched && (
+                            <div className="error">{meta.error}</div>
+                          )}
+                        </div>
+                      );
+                    }}
+                  </Field>
+                  <Field name="cvv">
+                    {({ input, meta }) => {
+                      return (
+                        <div>
+                          <TextField
+                            {...input}
+                            placeholder="CVV"
+                            label="CVV"
+                            type="text"
+                            required={true}
+                            fullWidth={true}
+                            name={input.name}
+                            value={input.value}
+                            onChange={input.onChange}
+                          />
+                          {meta.error && meta.touched && (
+                            <div className="error">{meta.error}</div>
+                          )}
+                        </div>
+                      );
+                    }}
+                  </Field>
+                  <Button type="submit" disabled={submitting || pristine}>
+                    Сохранить
+                  </Button>
+                </Grid>
               </form>
             );
           }}
         />
-      </React.Fragment>
+      </div>
     );
   }
 }

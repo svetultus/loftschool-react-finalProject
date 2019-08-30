@@ -36,14 +36,23 @@ class Login extends PureComponent {
     }
   };
   onSubmit = event => {
-    // event.preventDefault();
-    console.log(event);
     const { authRequest } = this.props;
     const { userName, userPassword } = event;
     authRequest({
       userName: userName,
       userPassword: userPassword
     });
+  };
+
+  validate = values => {
+    const errors = {};
+    if (!values.userName) {
+      errors.userName = "Обязательное поле";
+    }
+    if (!values.userPassword) {
+      errors.userPassword = "Обязательное поле";
+    }
+    return errors;
   };
 
   componentDidMount() {

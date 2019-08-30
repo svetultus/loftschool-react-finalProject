@@ -32,9 +32,8 @@ class MapBox extends React.PureComponent {
   render() {
     return (
       <React.Fragment>
-        <Box>
-          <div ref={this.mapContainer} />
-        </Box>
+        <div ref={this.mapContainer} />
+
         <MapForm></MapForm>
       </React.Fragment>
     );

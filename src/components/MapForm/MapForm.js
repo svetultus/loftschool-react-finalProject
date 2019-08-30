@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { getIsPayable } from "../../modules/User";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import Paper from "@material-ui/core/Paper";
 
 const MapStateToProps = state => ({
   isPayable: getIsPayable(state)
@@ -18,13 +19,13 @@ class MapForm extends PureComponent {
 
     return (
       !isPayable && (
-        <div className={styles.formContainer}>
+        <Paper className={styles.root}>
           <h1>Заполните платежные данные</h1>
           <p>Укажите информацию о банковской карте, чтобы сделать заказ.</p>
           <Link tabIndex="0" role="button" to="/profile">
             <span>Перейти в профиль.</span>
           </Link>
-        </div>
+        </Paper>
       )
     );
   }

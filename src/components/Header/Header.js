@@ -23,7 +23,7 @@ class Header extends PureComponent {
     const { className, isAuthorized, ...rest } = this.props;
 
     return (
-      <AppBar position="static">
+      <AppBar position="static" className={styles.root}>
         <h2>Loft Taxi</h2>
         <nav>
           <Link to="/map" replace>

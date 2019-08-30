@@ -1,5 +1,8 @@
-.formContainer {
+.root {
   position: absolute;
-  top: 100px;
+  top: 50%;
   left: 0;
+  background-color: white;
+  padding: 30px;
+  transform: translateY(-50%);
 }
