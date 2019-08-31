@@ -6,7 +6,10 @@ import {
   mapFailure,
   addressListRequest,
   addressListSuccess,
-  addressListFailure
+  addressListFailure,
+  routeRequest,
+  routeSuccess,
+  routeFailure
 } from "./actions";
 import { createSelector } from "reselect";
 
@@ -27,6 +30,24 @@ const addressList = handleActions(
   null
 );
 
+const addressesForRoute = handleActions(
+  {
+    [routeRequest]: (state, action) => action.payload.addresses,
+    [routeSuccess]: state => state,
+    [routeFailure]: state => null
+  },
+  null
+);
+
+const route = handleActions(
+  {
+    [routeRequest]: state => null,
+    [routeSuccess]: (state, action) => action.payload,
+    [routeFailure]: state => null
+  },
+  null
+);
+
 export const getMap = createSelector(
   state => state.mapBox.map,
   map => map
@@ -37,4 +58,14 @@ export const getAddressList = createSelector(
   addressList => addressList
 );
 
-export default combineReducers({ map, addressList });
+export const getAddressesForRoute = createSelector(
+  state => state.mapBox.addressesForRoute,
+  addressesForRoute => addressesForRoute
+);
+
+export const getRoute = createSelector(
+  state => state.mapBox.route,
+  route => route
+);
+
+export default combineReducers({ map, addressList, route });

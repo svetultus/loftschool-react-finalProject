@@ -14,18 +14,14 @@ import {
   InputLabel
 } from "@material-ui/core/";
 import { getIsPayable } from "../../modules/User";
-import { getAddressList } from "../../modules/MapBox";
+import { getAddressList, routeRequest } from "../../modules/MapBox";
 import styles from "./MapForm.module.css";
 
 const MapStateToProps = state => ({
   isPayable: getIsPayable(state),
   addressList: getAddressList(state)
 });
-const MapDispatchToProps = {};
-
-const onSubmit = () => {
-  console.log("submit");
-};
+const MapDispatchToProps = { routeRequest };
 
 const messageToFillProfile = (
   <React.Fragment>
@@ -38,7 +34,33 @@ const messageToFillProfile = (
 );
 
 function FormTaxiRequest(props) {
-  const { addressList } = props;
+  const { addressList, routeRequest } = props;
+
+  const options =
+    addressList &&
+    addressList.map((item, index) => (
+      <MenuItem value={item} key={index}>
+        {item}
+      </MenuItem>
+    ));
+
+  function onSubmit(e) {
+    console.log("submit", e);
+    let addresses = { address1: e.from, address2: e.to };
+    console.log(addresses);
+    routeRequest(addresses);
+  }
+  const makeField = props => {
+    const { input, meta, label } = props;
+    return (
+      <FormControl className={styles.formControl}>
+        <InputLabel htmlFor={input.name}>{label}</InputLabel>
+        <Select value="" inputProps={{ ...input, id: input.name }}>
+          {options}
+        </Select>
+      </FormControl>
+    );
+  };
 
   return (
     <React.Fragment>
@@ -55,34 +77,19 @@ function FormTaxiRequest(props) {
                     name="from"
                     label="Выберите адрес отправления"
                     formControlProps={{ fullWidth: true }}
-                  >
-                    {props => {
-                      console.log(props);
-                      const { input, meta, label } = props;
-                      console.log(label);
-                      return (
-                        <FormControl>
-                          <InputLabel htmlFor="from">{label}</InputLabel>
-                          <Select
-                            value=""
-                            inputProps={{ ...input, id: "from" }}
-                            className={styles.select}
-                          >
-                            <MenuItem value="">
-                              <em>Выбрать точку старта</em>
-                            </MenuItem>
-                            {addressList &&
-                              addressList.map((item, index) => (
-                                <MenuItem value={item} key={index}>
-                                  {item}
-                                </MenuItem>
-                              ))}
-                          </Select>
-                        </FormControl>
-                      );
-                    }}
-                  </Field>
+                    render={makeField}
+                  />
                 </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    fullWidth
+                    name="to"
+                    label="Выберите адрес назначения"
+                    formControlProps={{ fullWidth: true }}
+                    render={makeField}
+                  />
+                </Grid>
+
                 <Grid item>
                   <Button
                     variant="contained"
@@ -103,12 +110,21 @@ function FormTaxiRequest(props) {
 
 class MapForm extends PureComponent {
   render() {
-    const { className, isPayable, addressList, ...rest } = this.props;
+    const {
+      className,
+      isPayable,
+      addressList,
+      routeRequest,
+      ...rest
+    } = this.props;
 
     return (
       <Paper className={styles.root}>
         {isPayable ? (
-          <FormTaxiRequest addressList={addressList}></FormTaxiRequest>
+          <FormTaxiRequest
+            addressList={addressList}
+            routeRequest={routeRequest}
+          ></FormTaxiRequest>
         ) : (
           messageToFillProfile
         )}
