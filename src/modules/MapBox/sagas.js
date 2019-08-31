@@ -18,7 +18,7 @@ import {
   fetchAddressList,
   fetchRoute,
   drawRoute,
-  removeRoute
+  flyTo
 } from "./api.js";
 import { userRequest, getUserData } from "../User";
 import {
@@ -37,7 +37,7 @@ function* fetchMapWatcher(action) {
   yield takeLatest(mapRequest, fetchMapFlow);
   yield takeLatest(addressListRequest, fetchAddressListFlow);
   yield takeLatest(routeRequest, fetchRouteFlow);
-  yield takeLatest(newOrderRequest, fetchNewOrderFlow);
+  yield takeLatest(routeSuccess, fetchRouteSuccessFlow);
 }
 
 function* fetchMapFlow(action) {
@@ -79,12 +79,12 @@ function* fetchRouteFlow(action) {
     yield put(routeFailure(error.message));
   }
 }
-function* fetchNewOrderFlow() {
+
+function* fetchRouteSuccessFlow(action) {
   try {
-    yield call(removeRoute);
-    yield put(newOrderSuccess());
+    yield call(flyTo, action.payload[0]);
   } catch (error) {
-    yield put(newOrderFailure(error.message));
+    throw error;
   }
 }
 

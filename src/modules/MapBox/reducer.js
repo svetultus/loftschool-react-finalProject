@@ -10,9 +10,9 @@ import {
   routeRequest,
   routeSuccess,
   routeFailure,
-  newOrderRequest,
-  newOrderSuccess,
-  newOrderFailure
+  newOrderRequest
+  // newOrderSuccess,
+  // newOrderFailure
 } from "./actions";
 
 import { createSelector } from "reselect";
@@ -39,7 +39,7 @@ const addressesForRoute = handleActions(
     [routeRequest]: (state, action) => action.payload.addresses,
     [routeSuccess]: state => state,
     [routeFailure]: state => null,
-    [newOrderSuccess]: state => null
+    [newOrderRequest]: state => null
   },
   null
 );
@@ -49,7 +49,7 @@ const route = handleActions(
     [routeRequest]: state => null,
     [routeSuccess]: (state, action) => action.payload,
     [routeFailure]: state => null,
-    [newOrderSuccess]: state => null
+    [newOrderRequest]: state => null
   },
   null
 );
@@ -59,7 +59,7 @@ const order = handleActions(
     [routeRequest]: state => false,
     [routeSuccess]: state => true,
     [routeFailure]: state => false,
-    [newOrderSuccess]: state => false
+    [newOrderRequest]: state => false
   },
   false
 );

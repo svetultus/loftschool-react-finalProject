@@ -29,8 +29,23 @@ export const fetchRoute = ({ address1, address2 }) => {
 };
 
 export const drawRoute = route => {
-  console.log("adding layer ", map.getLayer(layerId));
-  // debugger;
+  if (map.getLayer(layerId)) {
+    map.getSource(layerId).setData({
+      type: "FeatureCollection",
+      features: [
+        {
+          type: "Feature",
+          properties: {},
+          geometry: {
+            type: "LineString",
+            coordinates: route
+          }
+        }
+      ]
+    });
+    return;
+  }
+
   map.addLayer({
     id: layerId,
     type: "line",
@@ -54,12 +69,14 @@ export const drawRoute = route => {
       "line-width": 8
     }
   });
-  console.log("added layer ");
 };
 
-export const removeRoute = () => {
-  if (map.getLayer(layerId)) {
-    map.removeLayer(layerId);
-    console.log("layer removed");
-  }
+export const flyTo = point => {
+  map.flyTo({
+    center: point,
+    zoom: 16,
+    bearing: 0,
+    speed: 0.9,
+    curve: 1
+  });
 };
