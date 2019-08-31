@@ -7,10 +7,19 @@ import {
   addressListFailure,
   routeRequest,
   routeSuccess,
-  routeFailure
+  routeFailure,
+  newOrderRequest,
+  newOrderSuccess,
+  newOrderFailure
 } from "./actions";
 import { getAddressesForRoute, getAddressList, getRoute } from "./reducer";
-import { mapInit, fetchAddressList, fetchRoute } from "./api.js";
+import {
+  mapInit,
+  fetchAddressList,
+  fetchRoute,
+  drawRoute,
+  removeRoute
+} from "./api.js";
 import { userRequest, getUserData } from "../User";
 import {
   take,
@@ -22,17 +31,20 @@ import {
 } from "redux-saga/effects";
 import { apiKey } from "./apiKey.js";
 
+let map;
+
 function* fetchMapWatcher(action) {
   yield takeLatest(mapRequest, fetchMapFlow);
   yield takeLatest(addressListRequest, fetchAddressListFlow);
   yield takeLatest(routeRequest, fetchRouteFlow);
+  yield takeLatest(newOrderRequest, fetchNewOrderFlow);
 }
 
 function* fetchMapFlow(action) {
   const mapContainer = action.payload;
 
   try {
-    const map = yield call(mapInit, mapContainer, apiKey);
+    map = yield call(mapInit, mapContainer, apiKey);
     if (map) {
       //   yield put(mapSuccess(map));
       yield put(addressListRequest());
@@ -59,9 +71,20 @@ function* fetchRouteFlow(action) {
     if (addresses) {
       var route = yield call(fetchRoute, addresses);
     }
-    if (route) yield put(routeSuccess(route));
+    if (route) {
+      yield put(routeSuccess(route));
+      yield call(drawRoute, route);
+    }
   } catch (error) {
     yield put(routeFailure(error.message));
+  }
+}
+function* fetchNewOrderFlow() {
+  try {
+    yield call(removeRoute);
+    yield put(newOrderSuccess());
+  } catch (error) {
+    yield put(newOrderFailure(error.message));
   }
 }
 
