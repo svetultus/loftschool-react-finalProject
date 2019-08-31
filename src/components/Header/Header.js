@@ -1,10 +1,10 @@
 import React, { PureComponent } from "react";
 import cx from "classnames";
-import { Link, withRouter } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import styles from "./Header.module.css";
 import { getIsAuthorized, logoutRequest } from "../../modules/Auth";
 import { AppBar } from "@material-ui/core/";
+import styles from "./Header.module.css";
 
 const MapStateToProps = state => ({
   isAuthorized: getIsAuthorized(state)
@@ -23,24 +23,24 @@ class Header extends PureComponent {
 
     return (
       <AppBar position="static" className={styles.root}>
-        <h2>Loft Taxi</h2>
-        <nav>
-          <Link to="/map" replace>
+        <h2 className={styles.h2}>Loft Taxi</h2>
+        <nav className={styles.nav}>
+          <NavLink to="/map" replace activeClassName="selected">
             Карта
-          </Link>
+          </NavLink>
 
-          <Link to="/profile" replace>
+          <NavLink to="/profile" replace activeClassName="selected">
             Профиль
-          </Link>
+          </NavLink>
 
           {isAuthorized ? (
             <a href="/logout" onClick={this.handleClick}>
               Выйти
             </a>
           ) : (
-            <Link to="/login" replace>
+            <NavLink to="/login" replace activeClassName="selected">
               Войти
-            </Link>
+            </NavLink>
           )}
         </nav>
       </AppBar>

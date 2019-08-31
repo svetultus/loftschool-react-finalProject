@@ -2,12 +2,11 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { withRouter, Redirect } from "react-router-dom";
 import { Form, Field } from "react-final-form";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import styles from "./Login.module.css";
+import { TextField, Button } from "@material-ui/core/";
 import { getIsAuthorized, authRequest } from "../../modules/Auth";
 import { getUserData } from "../../modules/User";
 import { user } from "./authData";
+import styles from "./Login.module.css";
 
 const MapStateToProps = state => ({
   isAuthorized: getIsAuthorized(state),

@@ -3,4 +3,17 @@
   border-radius: 4px;
   padding: 5px 15px;
   width: 400px;
+  flex-direction: row !important;
+}
+.h2 {
+  margin: 0;
+}
+.nav {
+  margin-right: 0;
+  margin-left: auto;
+}
+.nav a {
+  color: white;
+  display: inline-block;
+  margin: 4px 8px;
 }

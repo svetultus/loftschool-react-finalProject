@@ -62,7 +62,13 @@ function FormTaxiRequest(props) {
     return (
       <FormControl className={styles.formControl}>
         <InputLabel htmlFor={input.name}>{label}</InputLabel>
-        <Select value="" inputProps={{ ...input, id: input.name }}>
+        <Select
+          value=""
+          inputProps={{
+            ...input,
+            id: input.name
+          }}
+        >
           {options}
         </Select>
       </FormControl>
