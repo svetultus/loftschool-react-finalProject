@@ -51,10 +51,23 @@ function FormTaxiRequest(props) {
     ));
 
   function onSubmit(e) {
+    if (!(e.from || e.to)) return false;
+
     let addresses = { address1: e.from, address2: e.to };
 
     routeRequest(addresses);
   }
+
+  const validate = values => {
+    const errors = {};
+    if (!values.from) {
+      errors.from = "Обязательное поле";
+    }
+    if (!values.to) {
+      errors.to = "Обязательное поле";
+    }
+    return errors;
+  };
 
   const makeField = props => {
     const { input, meta, label } = props;
@@ -71,6 +84,7 @@ function FormTaxiRequest(props) {
         >
           {options}
         </Select>
+        <div className="error">{meta.touched && meta.error}</div>
       </FormControl>
     );
   };
@@ -80,7 +94,15 @@ function FormTaxiRequest(props) {
       <h1>Вызов такси</h1>
       <Form
         onSubmit={onSubmit}
-        render={({ handleSubmit, reset, submitting, pristine, values }) => (
+        validate={validate}
+        render={({
+          handleSubmit,
+          reset,
+          submitting,
+          pristine,
+          values,
+          hasValidationErrors
+        }) => (
           <form onSubmit={handleSubmit} noValidate>
             <Paper style={{ padding: 16 }}>
               <Grid container alignItems="flex-start" spacing={2}>
@@ -89,7 +111,9 @@ function FormTaxiRequest(props) {
                     fullWidth
                     name="from"
                     label="Выберите адрес отправления"
-                    formControlProps={{ fullWidth: true }}
+                    formControlProps={{
+                      fullWidth: true
+                    }}
                     render={makeField}
                   />
                 </Grid>
@@ -107,7 +131,7 @@ function FormTaxiRequest(props) {
                   <Button
                     variant="contained"
                     type="submit"
-                    disabled={submitting}
+                    disabled={submitting || hasValidationErrors}
                   >
                     Вызвать такси
                   </Button>

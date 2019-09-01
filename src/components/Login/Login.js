@@ -47,9 +47,13 @@ class Login extends PureComponent {
     const errors = {};
     if (!values.userName) {
       errors.userName = "Обязательное поле";
+    } else if (values.userName !== user.name) {
+      errors.userName = "Неверный логин";
     }
     if (!values.userPassword) {
       errors.userPassword = "Обязательное поле";
+    } else if (values.userPassword !== user.password) {
+      errors.userPassword = "Неверный пароль";
     }
     return errors;
   };
@@ -78,7 +82,7 @@ class Login extends PureComponent {
             submitting,
             pristine,
             values,
-            errors
+            hasValidationErrors
           }) => (
             <form onSubmit={handleSubmit}>
               <Field name="userName" onChange={this.handleChange}>
@@ -124,7 +128,11 @@ class Login extends PureComponent {
                 }}
               </Field>
 
-              <Button type="submit" disabled={submitting}>
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={submitting || hasValidationErrors}
+              >
                 Сохранить
               </Button>
             </form>
