@@ -1,18 +1,12 @@
-// Реализуйте роутер
-
-// Роутер должен иметь роуты для компонентов Login и Search
-// Вам потребуется использовать PrivateRoute для Search
-// По умолчанию нужно перенаправлять на страницу логина
 import React from "react";
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import { Paper, Grid, Container, createMuiTheme } from "@material-ui/core/";
-import { ThemeProvider } from "@material-ui/styles";
+import { ThemeProvider, makeStyles } from "@material-ui/styles";
 import PrivateRoute from "../PrivateRoute";
 import Header from "../Header";
 import Login from "../Login";
 import Profile from "../Profile";
 import MapBox from "../MapBox";
-import styles from "./Router.module.css";
 
 const theme = createMuiTheme({
   overrides: {
@@ -21,8 +15,20 @@ const theme = createMuiTheme({
     }
   }
 });
+const useStyles = makeStyles({
+  grid: {
+    height: "100%",
+    position: "relative"
+  },
+  container_main: {
+    height: "100%",
+    position: "relative"
+  }
+});
 
 export default () => {
+  const classes = useStyles();
+
   return (
     <BrowserRouter>
       <ThemeProvider theme={theme}>
@@ -31,7 +37,7 @@ export default () => {
           alignContent="stretch"
           container={true}
           direction="column"
-          className={styles.grid}
+          className={classes.grid}
           justify="space-between"
           wrap="nowrap"
         >
@@ -39,22 +45,19 @@ export default () => {
             <Header></Header>
           </Grid>
 
-          {/* <Container className={styles.container_main}> */}
           <Grid
             item
             container
             direction="column"
-            className={styles.container_main}
+            className={classes.container_main}
           >
             <Switch>
               <Route path="/login" component={Login} />
               <PrivateRoute path="/map" component={MapBox} />
               <PrivateRoute path="/profile" component={Profile} />
-              {/* <PrivateRoute path="/logout" component={Login} /> */}
               <Redirect path="/" exact to="/login" />
             </Switch>
           </Grid>
-          {/* </Container> */}
         </Grid>
       </ThemeProvider>
     </BrowserRouter>

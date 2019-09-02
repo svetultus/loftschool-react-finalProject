@@ -1,7 +1,5 @@
 import React, { PureComponent } from "react";
-import { render } from "react-dom";
-import { Link, withRouter } from "react-router-dom";
-import cx from "classnames";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Form, Field } from "react-final-form";
 import {
@@ -12,10 +10,10 @@ import {
 } from "final-form-material-ui";
 import { Button, Grid } from "@material-ui/core/";
 import {
-  userSuccess,
-  checkUserIsPayable,
   getUserData,
-  getIsPayable
+  getIsPayable,
+  userSuccess,
+  checkUserIsPayable
 } from "../../modules/User";
 import {
   required,
@@ -24,7 +22,6 @@ import {
   mustBeLetters,
   composeValidators
 } from "../../modules/formValidation.js";
-import styles from "./Profile.module.css";
 
 const MapStateToProps = state => ({
   userProfile: getUserData(state),
@@ -43,6 +40,7 @@ class Profile extends PureComponent {
   };
 
   onSubmit = e => {
+    const { userSuccess, checkUserIsPayable } = this.props;
     const { userName, cardNumber, cardName, expDate, cvv } = e;
     const user = {
       user: {
@@ -54,36 +52,11 @@ class Profile extends PureComponent {
       }
     };
 
-    this.props.userSuccess(user);
-    this.props.checkUserIsPayable(user);
+    userSuccess(user);
+    checkUserIsPayable(user);
     this.setState({ formWasSaved: true });
   };
 
-  handleChange = e => {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  };
-
-  // validate = values => {
-  //   const errors = {};
-
-  //   if (!values.userName) {
-  //     errors.userName = "Имя пользователя должно быть заполнено";
-  //   }
-  //   if (!values.cardName) {
-  //     errors.cardName = "Название карты должно быть заполнено";
-  //   }
-  //   if (!values.cardNumber) {
-  //     errors.cardNumber = "Номер карты должен быть заполнен";
-  //   }
-  //   if (!values.expDate) {
-  //     errors.expDate = "Срок действия карты должен быть заполнен";
-  //   }
-  //   if (!values.cvv) {
-  //     errors.cvv = "CVV должно быть заполнено";
-  //   }
-  //   return errors;
-  // };
   render() {
     const isPayable = this.props;
     const {
@@ -100,7 +73,6 @@ class Profile extends PureComponent {
         <h2>Способ оплаты</h2>
         <Form
           onSubmit={this.onSubmit}
-          validate={this.validate}
           initialValues={{
             userName: userName,
             cardName: cardName,

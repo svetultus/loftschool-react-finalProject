@@ -1,51 +1,91 @@
 import React, { PureComponent } from "react";
-import cx from "classnames";
+
 import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { getIsAuthorized, logoutRequest } from "../../modules/Auth";
 import { AppBar } from "@material-ui/core/";
-import styles from "./Header.module.css";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles({
+  root: {
+    fontSize: 16,
+    borderRadius: 4,
+    padding: "5px 15px",
+    flexDirection: "row"
+  },
+  h2: {
+    margin: 0
+  },
+  nav: {
+    marginRight: 0,
+    marginLeft: "auto"
+  },
+  navLink: {
+    color: "white",
+    display: "inline-block",
+    margin: "4px 8px"
+  },
+  navLink_selected: {
+    textDecoration: "none"
+  }
+});
 
 const MapStateToProps = state => ({
   isAuthorized: getIsAuthorized(state)
 });
 const MapDispatchToProps = { logoutRequest };
 
-class Header extends PureComponent {
-  handleClick = e => {
+function Header(props) {
+  const handleClick = e => {
     e.preventDefault();
-    const { isAuthorized, logoutRequest } = this.props;
+    const { isAuthorized, logoutRequest } = props;
     if (isAuthorized) logoutRequest();
   };
 
-  render() {
-    const { className, isAuthorized, ...rest } = this.props;
+  const { className, isAuthorized, ...rest } = props;
+  const classes = useStyles();
 
-    return (
-      <AppBar position="static" className={styles.root}>
-        <h2 className={styles.h2}>Loft Taxi</h2>
-        <nav className={styles.nav}>
-          <NavLink to="/map" replace activeClassName="selected">
-            Карта
+  return (
+    <AppBar position="static" className={classes.root}>
+      <h2 className={classes.h2}>Loft Taxi</h2>
+      <nav className={classes.nav}>
+        <NavLink
+          to="/map"
+          className={classes.navLink}
+          activeClassName={classes.navLink_selected}
+        >
+          Карта
+        </NavLink>
+
+        <NavLink
+          to="/profile"
+          className={classes.navLink}
+          activeClassName={classes.navLink_selected}
+        >
+          Профиль
+        </NavLink>
+
+        {isAuthorized ? (
+          <NavLink
+            to="/logout"
+            className={classes.navLink}
+            activeClassName={classes.navLink_selected}
+            onClick={handleClick}
+          >
+            Выйти
           </NavLink>
-
-          <NavLink to="/profile" replace activeClassName="selected">
-            Профиль
+        ) : (
+          <NavLink
+            to="/login"
+            className={classes.navLink}
+            activeClassName={classes.navLink_selected}
+          >
+            Войти
           </NavLink>
-
-          {isAuthorized ? (
-            <a href="/logout" onClick={this.handleClick}>
-              Выйти
-            </a>
-          ) : (
-            <NavLink to="/login" replace activeClassName="selected">
-              Войти
-            </NavLink>
-          )}
-        </nav>
-      </AppBar>
-    );
-  }
+        )}
+      </nav>
+    </AppBar>
+  );
 }
 
 export default connect(

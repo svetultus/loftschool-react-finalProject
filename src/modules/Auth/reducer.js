@@ -8,14 +8,6 @@ import {
 } from "./actions";
 import { createSelector } from "reselect";
 
-// const user = handleActions(
-//   {
-//     [authRequest]: (state, action) => state,
-//     [authSuccess]: (state, action) => ({ name: action.payload }),
-//     [authFailure]: (state, action) => state
-//   },
-//   null
-// );
 const isAuthorized = handleActions(
   {
     [authRequest]: (state, action) => false,
@@ -26,17 +18,26 @@ const isAuthorized = handleActions(
   false
 );
 
-// export const getUser = createSelector(
-//   state => state.auth.user,
-//   user => user
-// );
+const error = handleActions(
+  {
+    [authRequest]: (state, action) => null,
+    [authSuccess]: (state, action) => null,
+    [authFailure]: (state, action) => action.payload
+  },
+  null
+);
 
 export const getIsAuthorized = createSelector(
   state => state.auth.isAuthorized,
   isAuthorized => isAuthorized
 );
 
+export const getError = createSelector(
+  state => state.auth.error,
+  error => error
+);
+
 export default combineReducers({
-  isAuthorized
-  // , user
+  isAuthorized,
+  error
 });

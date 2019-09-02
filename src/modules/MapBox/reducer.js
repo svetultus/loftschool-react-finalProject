@@ -11,20 +11,10 @@ import {
   routeSuccess,
   routeFailure,
   newOrderRequest
-  // newOrderSuccess,
-  // newOrderFailure
 } from "./actions";
 
 import { createSelector } from "reselect";
 
-const map = handleActions(
-  {
-    [mapRequest]: (state, action) => null,
-    // [mapSuccess]: (state, action) => ({ ...state, map: action.payload }),
-    [mapFailure]: (state, action) => null
-  },
-  null
-);
 const addressList = handleActions(
   {
     [addressListRequest]: state => state,
@@ -64,11 +54,6 @@ const order = handleActions(
   false
 );
 
-export const getMap = createSelector(
-  state => state.mapBox.map,
-  map => map
-);
-
 export const getAddressList = createSelector(
   state => state.mapBox.addressList,
   addressList => addressList
@@ -89,4 +74,4 @@ export const getOrder = createSelector(
   order => order
 );
 
-export default combineReducers({ map, addressList, route, order });
+export default combineReducers({ addressList, route, order });

@@ -7,12 +7,8 @@ import {
   addressListFailure,
   routeRequest,
   routeSuccess,
-  routeFailure,
-  newOrderRequest,
-  newOrderSuccess,
-  newOrderFailure
+  routeFailure
 } from "./actions";
-import { getAddressesForRoute, getAddressList, getRoute } from "./reducer";
 import {
   mapInit,
   fetchAddressList,

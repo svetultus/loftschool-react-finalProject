@@ -11,7 +11,7 @@ function* fetchAuthFlow(action) {
   try {
     const result = yield call(authUser, userName, userPassword);
     if (result.success) yield put(authSuccess(userName));
-    else throw new Error(result.error);
+    else yield put(authFailure("Ошибка авторизации"));
   } catch (err) {
     yield put(authFailure(err.message));
   }

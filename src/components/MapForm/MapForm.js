@@ -12,7 +12,21 @@ import {
   routeRequest,
   newOrderRequest
 } from "../../modules/MapBox";
-import styles from "./MapForm.module.css";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles({
+  root: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    backgrounColor: "white",
+    padding: "10px",
+    width: "300px"
+  },
+  formControl: {
+    width: "100%"
+  }
+});
 
 const MapStateToProps = state => ({
   isPayable: getIsPayable(state),
@@ -142,9 +156,10 @@ function MapForm(props) {
     newOrderRequest,
     ...rest
   } = props;
+  const classes = useStyles();
 
   return (
-    <Paper className={styles.root}>
+    <Paper className={classes.root}>
       {isPayable ? (
         order ? (
           <FormNewOrder onSubmit={newOrderRequest}></FormNewOrder>
