@@ -3,16 +3,8 @@ import cx from "classnames";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Form, Field } from "react-final-form";
-import {
-  Select,
-  MenuItem,
-  Button,
-  Grid,
-  Paper,
-  TextField,
-  FormControl,
-  InputLabel
-} from "@material-ui/core/";
+import { Button, Grid, Paper, MenuItem } from "@material-ui/core/";
+import { TextField, Select, FormHelperText } from "final-form-material-ui";
 import { getIsPayable } from "../../modules/User";
 import {
   getAddressList,
@@ -69,64 +61,46 @@ function FormTaxiRequest(props) {
     return errors;
   };
 
-  const makeField = props => {
-    const { input, meta, label } = props;
-
-    return (
-      <FormControl className={styles.formControl}>
-        <InputLabel htmlFor={input.name}>{label}</InputLabel>
-        <Select
-          value=""
-          inputProps={{
-            ...input,
-            id: input.name
-          }}
-        >
-          {options}
-        </Select>
-        <div className="error">{meta.touched && meta.error}</div>
-      </FormControl>
-    );
-  };
-
   return (
     <React.Fragment>
       <h1>Вызов такси</h1>
       <Form
         onSubmit={onSubmit}
+        initialValues={{ from: "", to: "" }}
         validate={validate}
         render={({
           handleSubmit,
-          reset,
           submitting,
           pristine,
-          values,
-          hasValidationErrors
+          hasValidationErrors,
+          meta,
+          helper
         }) => (
-          <form onSubmit={handleSubmit} noValidate>
+          <form onSubmit={handleSubmit}>
             <Paper style={{ padding: 16 }}>
-              <Grid container alignItems="flex-start" spacing={2}>
+              <Grid container alignItems="flex-start" spacing={8}>
                 <Grid item xs={12}>
                   <Field
                     fullWidth
                     name="from"
-                    label="Выберите адрес отправления"
-                    formControlProps={{
-                      fullWidth: true
-                    }}
-                    render={makeField}
-                  />
+                    component={Select}
+                    label="Выберите пункт отправления"
+                    formControlProps={{ fullWidth: true }}
+                  >
+                    {options}
+                  </Field>
                 </Grid>
                 <Grid item xs={12}>
                   <Field
                     fullWidth
                     name="to"
-                    label="Выберите адрес назначения"
+                    component={Select}
+                    label="Выберите пункт назначения"
                     formControlProps={{ fullWidth: true }}
-                    render={makeField}
-                  />
+                  >
+                    {options}
+                  </Field>
                 </Grid>
-
                 <Grid item>
                   <Button
                     variant="contained"
@@ -158,35 +132,33 @@ function FormNewOrder(props) {
   );
 }
 
-class MapForm extends PureComponent {
-  render() {
-    const {
-      className,
-      isPayable,
-      order,
-      addressList,
-      routeRequest,
-      newOrderRequest,
-      ...rest
-    } = this.props;
+function MapForm(props) {
+  const {
+    className,
+    isPayable,
+    order,
+    addressList,
+    routeRequest,
+    newOrderRequest,
+    ...rest
+  } = props;
 
-    return (
-      <Paper className={styles.root}>
-        {isPayable ? (
-          order ? (
-            <FormNewOrder onSubmit={newOrderRequest}></FormNewOrder>
-          ) : (
-            <FormTaxiRequest
-              addressList={addressList}
-              routeRequest={routeRequest}
-            ></FormTaxiRequest>
-          )
+  return (
+    <Paper className={styles.root}>
+      {isPayable ? (
+        order ? (
+          <FormNewOrder onSubmit={newOrderRequest}></FormNewOrder>
         ) : (
-          messageToFillProfile
-        )}
-      </Paper>
-    );
-  }
+          <FormTaxiRequest
+            addressList={addressList}
+            routeRequest={routeRequest}
+          ></FormTaxiRequest>
+        )
+      ) : (
+        messageToFillProfile
+      )}
+    </Paper>
+  );
 }
 
 export default connect(

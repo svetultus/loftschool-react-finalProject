@@ -6,7 +6,6 @@
 import React from "react";
 import { Route, Switch, Redirect, BrowserRouter } from "react-router-dom";
 import { Paper, Grid, Container, createMuiTheme } from "@material-ui/core/";
-// import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from "@material-ui/styles";
 import PrivateRoute from "../PrivateRoute";
 import Header from "../Header";
