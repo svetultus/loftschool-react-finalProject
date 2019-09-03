@@ -6,12 +6,13 @@ function* fetchAuthWatcher(action) {
   yield takeLatest(authRequest, fetchAuthFlow);
 }
 
-function* fetchAuthFlow(action) {
+export function* fetchAuthFlow(action) {
   const { userName, userPassword } = action.payload;
   try {
     const result = yield call(authUser, userName, userPassword);
-    if (result.success) yield put(authSuccess(userName));
-    else yield put(authFailure("Ошибка авторизации"));
+    if (result.success) {
+      yield put(authSuccess(userName));
+    } else yield put(authFailure("Ошибка авторизации"));
   } catch (err) {
     yield put(authFailure(err.message));
   }
