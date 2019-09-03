@@ -1,9 +1,6 @@
 import { combineReducers } from "redux";
 import { handleActions } from "redux-actions";
 import {
-  mapRequest,
-  mapSuccess,
-  mapFailure,
   addressListRequest,
   addressListSuccess,
   addressListFailure,
@@ -17,9 +14,7 @@ import { createSelector } from "reselect";
 
 const addressList = handleActions(
   {
-    [addressListRequest]: state => state,
-    [addressListSuccess]: (state, action) => action.payload.addresses,
-    [addressListFailure]: state => state
+    [addressListSuccess]: (state, action) => action.payload.addresses
   },
   null
 );
@@ -27,7 +22,6 @@ const addressList = handleActions(
 const addressesForRoute = handleActions(
   {
     [routeRequest]: (state, action) => action.payload.addresses,
-    [routeSuccess]: state => state,
     [routeFailure]: state => null,
     [newOrderRequest]: state => null
   },

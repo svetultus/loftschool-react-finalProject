@@ -12,7 +12,6 @@ import { createSelector } from "reselect";
 const userProfile = handleActions(
   {
     [authSuccess]: (state, action) => ({ name: action.payload }),
-    [userRequest]: (state, action) => state,
     [userSuccess]: (state, action) => {
       const storage = localStorage;
       storage.setItem("loftTaxiUser", JSON.stringify(action.payload.user));
