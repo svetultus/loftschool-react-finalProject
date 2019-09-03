@@ -1,9 +1,7 @@
 import { combineReducers } from "redux";
 import { handleActions } from "redux-actions";
 import {
-  addressListRequest,
   addressListSuccess,
-  addressListFailure,
   routeRequest,
   routeSuccess,
   routeFailure,
@@ -15,15 +13,6 @@ import { createSelector } from "reselect";
 const addressList = handleActions(
   {
     [addressListSuccess]: (state, action) => action.payload.addresses
-  },
-  null
-);
-
-const addressesForRoute = handleActions(
-  {
-    [routeRequest]: (state, action) => action.payload.addresses,
-    [routeFailure]: state => null,
-    [newOrderRequest]: state => null
   },
   null
 );
@@ -68,4 +57,8 @@ export const getOrder = createSelector(
   order => order
 );
 
-export default combineReducers({ addressList, route, order });
+export default combineReducers({
+  addressList,
+  route,
+  order
+});
