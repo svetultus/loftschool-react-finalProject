@@ -2,13 +2,8 @@ import React, { PureComponent } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { Form, Field } from "react-final-form";
-import {
-  Input,
-  TextField,
-  Select,
-  FormHelperText
-} from "final-form-material-ui";
-import { Button, Grid, Container } from "@material-ui/core/";
+import { Input, TextField, Select } from "final-form-material-ui";
+import { Button, Grid, Container, FormHelperText } from "@material-ui/core/";
 import {
   getUserData,
   getIsPayable,
@@ -91,17 +86,15 @@ class Profile extends PureComponent {
           }) => {
             return (
               <React.Fragment>
-                {formWasSaved && isPayable && (
-                  <FormHelperText>Платежные данные сохранены</FormHelperText>
-                )}
                 <form onSubmit={handleSubmit}>
-                  <Grid
-                    wrap="nowrap"
-                    direction="column"
-                    container
-                    spacing={4}
-                    justify="center"
-                  >
+                  <Grid wrap="nowrap" direction="column" container spacing={4}>
+                    <Grid item>
+                      {formWasSaved && isPayable && (
+                        <FormHelperText>
+                          Платежные данные сохранены
+                        </FormHelperText>
+                      )}
+                    </Grid>
                     <Grid item>
                       <Field
                         name="userName"
@@ -141,6 +134,7 @@ class Profile extends PureComponent {
                     </Grid>
                     <Grid item>
                       <Field
+                        fullWidth
                         name="cvv"
                         component={TextField}
                         label="CVV"
