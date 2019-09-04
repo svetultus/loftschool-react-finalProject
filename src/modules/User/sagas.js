@@ -11,7 +11,7 @@ function* fetchuserWatcher(action) {
   yield takeLatest(userRequest, fetchUserFlow);
 }
 
-function* fetchUserFlow(action) {
+export function* fetchUserFlow(action) {
   const userName = action.payload;
 
   try {

@@ -27,7 +27,7 @@ function* fetchMapWatcher(action) {
   yield takeLatest(routeSuccess, fetchRouteSuccessFlow);
 }
 
-function* fetchMapFlow(action) {
+export function* fetchMapFlow(action) {
   const map = action.payload;
 
   try {
@@ -42,7 +42,7 @@ function* fetchMapFlow(action) {
   }
 }
 
-function* fetchAddressListFlow(action) {
+export function* fetchAddressListFlow(action) {
   try {
     const addresses = yield call(fetchAddressList);
     if (addresses) yield put(addressListSuccess(addresses));
@@ -51,7 +51,7 @@ function* fetchAddressListFlow(action) {
   }
 }
 
-function* fetchRouteFlow(action) {
+export function* fetchRouteFlow(action) {
   try {
     const addresses = action.payload;
     if (addresses) {
@@ -66,7 +66,7 @@ function* fetchRouteFlow(action) {
   }
 }
 
-function* fetchRouteSuccessFlow(action) {
+export function* fetchRouteSuccessFlow(action) {
   try {
     yield call(flyTo, action.payload[0]);
   } catch (error) {

@@ -7,7 +7,8 @@ import {
   select
 } from "redux-saga/effects";
 import { cloneableGenerator } from "@redux-saga/testing-utils";
-import { expectSaga } from "redux-saga-test-plan";
+import { expectSaga, testSaga } from "redux-saga-test-plan";
+
 import {
   fetchMapFlow,
   fetchAddressListFlow,
@@ -26,29 +27,47 @@ import {
   routeSuccess,
   routeFailure
 } from "./actions";
-import { fetchAddressList, fetchRoute, drawRoute, flyTo } from "./api.js";
-// import { userRequest, getUserData } from "../MapBox";
+import { fetchAddressList, fetchRoute } from "./api.js";
+import { userRequest, getUserData } from "../User";
+import reducer, { getAddressList } from "./reducer";
 
-describe("fetchMapFlow", () => {
-  it("just works!", () => {
-    const api = {
-      fetchUser: id => ({ id, name: "Tucker" })
-    };
-    const fetchMapFlow = true;
+describe("fetchAddressListFlow", () => {
+  const map = true;
+  const iterator = cloneableGenerator(fetchMapFlow)(mapRequest(map));
 
-    return (
-      expectSaga(fetchMapFlow, api)
-        // Assert that the `put` will eventually happen.
-        .put({
-          type: "RECEIVE_USER",
-          payload: { id: 42, name: "Tucker" }
-        })
+  it("fetchAddressListFlow", () => {
+    let response;
 
-        // Dispatch any actions that the saga will `take`.
-        .dispatch({ type: "REQUEST_USER", payload: 42 })
+    return expectSaga(fetchAddressListFlow, map)
+      .withReducer(reducer)
+      .provide([
+        [call(fetchAddressList), response],
+        [put(addressListSuccess(response))]
+      ])
+      .run()
+      .then(result => {
+        expect(result.storeState.addressList).toEqual([
+          "Пулково (LED)",
+          "Шаверма на Невском",
+          "Инфекционная больница им. Боткина",
+          "Волковское кладбище"
+        ]);
+      });
+  });
 
-        // Start the test. Returns a Promise.
-        .run()
-    );
-  }).then(result => expect(result.storeState.clickCount).toBe(14));
+  // it("Первый yield — select(getUserData)", () => {
+  //   expect(iterator.next().value).toEqual(put(select(getUserData)));
+  // });
+
+  // it("Второй yield — put(userRequest(user.name)), если авторизация прошла успешно", () => {
+  //   const clone = iterator.clone();
+  //   expect(clone.next({ user: { name: "testName" } }).value).toEqual(
+  //     put(userRequest(testName))
+  //   );
+  // });
+
+  // it("Второй yield — put(mapFailure(error.message)), если авторизация прошла неуспешно", () => {
+  //   const clone = iterator.clone();
+  //   expect(clone.next({}).value).toEqual(put(mapFailure("Ошибка")));
+  // });
 });
