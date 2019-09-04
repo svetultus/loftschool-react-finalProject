@@ -8,7 +8,7 @@ import {
   Select,
   FormHelperText
 } from "final-form-material-ui";
-import { Button, Grid } from "@material-ui/core/";
+import { Button, Grid, Container } from "@material-ui/core/";
 import {
   getUserData,
   getIsPayable,
@@ -68,7 +68,7 @@ class Profile extends PureComponent {
       formWasSaved
     } = this.state;
     return (
-      <div>
+      <Container style={{ width: "50%" }}>
         <h1>Профиль</h1>
         <h2>Способ оплаты</h2>
         <Form
@@ -92,63 +92,80 @@ class Profile extends PureComponent {
             return (
               <React.Fragment>
                 {formWasSaved && isPayable && (
-                  <div>Платежные данные сохранены</div>
+                  <FormHelperText>Платежные данные сохранены</FormHelperText>
                 )}
                 <form onSubmit={handleSubmit}>
-                  <Grid wrap="nowrap" direction="column" container>
-                    <Field
-                      name="userName"
-                      component={TextField}
-                      label="Имя пользователя"
-                      validate={required}
-                    />
-                    <Field
-                      name="cardName"
-                      component={TextField}
-                      label="Название карты"
-                      validate={composeValidators(required, mustBeLetters)}
-                    />
-                    <Field
-                      name="cardNumber"
-                      component={TextField}
-                      label="Номер карты"
-                      validate={composeValidators(
-                        required,
-                        mustBeNumber,
-                        valueLength(16)
-                      )}
-                    />
-                    <Field
-                      name="expDate"
-                      type="date"
-                      component={Input}
-                      label="Дата окончания действия"
-                      validate={required}
-                    />
-                    <Field
-                      fullWidth
-                      name="cvv"
-                      component={TextField}
-                      label="CVV"
-                      validate={composeValidators(
-                        required,
-                        mustBeNumber,
-                        valueLength(3)
-                      )}
-                    />
-                    <Button
-                      type="submit"
-                      disabled={submitting || pristine || hasValidationErrors}
-                    >
-                      Сохранить
-                    </Button>
+                  <Grid
+                    wrap="nowrap"
+                    direction="column"
+                    container
+                    spacing={4}
+                    justify="center"
+                  >
+                    <Grid item>
+                      <Field
+                        name="userName"
+                        component={TextField}
+                        label="Имя пользователя"
+                        validate={required}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Field
+                        name="cardName"
+                        component={TextField}
+                        label="Название карты"
+                        validate={composeValidators(required, mustBeLetters)}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Field
+                        name="cardNumber"
+                        component={TextField}
+                        label="Номер карты"
+                        validate={composeValidators(
+                          required,
+                          mustBeNumber,
+                          valueLength(16)
+                        )}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Field
+                        name="expDate"
+                        type="date"
+                        component={Input}
+                        label="Дата окончания действия"
+                        validate={required}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Field
+                        name="cvv"
+                        component={TextField}
+                        label="CVV"
+                        validate={composeValidators(
+                          required,
+                          mustBeNumber,
+                          valueLength(3)
+                        )}
+                      />
+                    </Grid>
+                    <Grid item>
+                      <Button
+                        type="submit"
+                        disabled={submitting || pristine || hasValidationErrors}
+                      >
+                        Сохранить
+                      </Button>
+                    </Grid>
                   </Grid>
                 </form>
               </React.Fragment>
             );
           }}
         />
-      </div>
+      </Container>
     );
   }
 }
