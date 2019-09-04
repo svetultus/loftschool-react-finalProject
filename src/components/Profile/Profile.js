@@ -134,7 +134,6 @@ class Profile extends PureComponent {
                     </Grid>
                     <Grid item>
                       <Field
-                        fullWidth
                         name="cvv"
                         component={TextField}
                         label="CVV"

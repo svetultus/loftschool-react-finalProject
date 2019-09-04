@@ -8,7 +8,6 @@ import {
 } from "redux-saga/effects";
 import { cloneableGenerator } from "@redux-saga/testing-utils";
 import { expectSaga } from "redux-saga-test-plan";
-
 import {
   fetchMapFlow,
   fetchAddressListFlow,
@@ -27,13 +26,7 @@ import {
   routeSuccess,
   routeFailure
 } from "./actions";
-// import {
-//   mapInit,
-//   fetchAddressList,
-//   fetchRoute,
-//   drawRoute,
-//   flyTo
-// } from "./api.js";
+import { fetchAddressList, fetchRoute, drawRoute, flyTo } from "./api.js";
 // import { userRequest, getUserData } from "../MapBox";
 
 describe("fetchMapFlow", () => {

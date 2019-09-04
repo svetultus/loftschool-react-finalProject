@@ -1,9 +1,7 @@
-import mapboxgl from "mapbox-gl";
-
 let map;
 const layerId = "route";
 
-export const mapInit = (mapContainer, apiKey) => {
+export const mapInit = (mapContainer, apiKey, mapboxgl) => {
   mapboxgl.accessToken = apiKey;
   map = new mapboxgl.Map({
     container: mapContainer.current,
