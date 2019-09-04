@@ -9,6 +9,7 @@ import { getUserData } from "../../modules/User";
 import { required } from "../../modules/formValidation.js";
 import { Grid, FormHelperText } from "@material-ui/core/";
 import styles from "./Login.module.css";
+import cx from "classnames";
 
 const MapStateToProps = state => ({
   isAuthorized: getIsAuthorized(state),
@@ -17,7 +18,7 @@ const MapStateToProps = state => ({
 });
 const MapDispatchToProps = { authRequest };
 
-function Login(props) {
+export function Login(props) {
   const onSubmit = event => {
     const { authRequest } = props;
     const { userName, userPassword } = event;
@@ -31,10 +32,10 @@ function Login(props) {
   if (isAuthorized) return <Redirect to="/map" />;
 
   return (
-    <div className={styles.root}>
+    <div data-testid="form-login" className={styles.root}>
       <h1>Войти</h1>
       {authError && (
-        <FormHelperText style={{ color: "red" }}>
+        <FormHelperText data-testid="form-login-error" style={{ color: "red" }}>
           Неверная пара логин/пароль
         </FormHelperText>
       )}
@@ -61,6 +62,7 @@ function Login(props) {
                   label="Логин"
                   validate={required}
                   required={true}
+                  className="t-input-userName"
                 />
               </Grid>
               <Grid item>
@@ -71,6 +73,7 @@ function Login(props) {
                   label="Пароль"
                   validate={required}
                   required={true}
+                  className="t-input-userPassword"
                 />
               </Grid>
               <Grid item>
@@ -78,6 +81,7 @@ function Login(props) {
                   type="submit"
                   variant="contained"
                   disabled={submitting || hasValidationErrors}
+                  data-testid="login-btn-submit"
                 >
                   Сохранить
                 </Button>

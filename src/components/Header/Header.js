@@ -35,7 +35,7 @@ const MapStateToProps = state => ({
 });
 const MapDispatchToProps = { logoutRequest };
 
-function Header(props) {
+export const Header = props => {
   const handleClick = e => {
     e.preventDefault();
     const { isAuthorized, logoutRequest } = props;
@@ -46,7 +46,11 @@ function Header(props) {
   const classes = useStyles();
 
   return (
-    <AppBar position="static" className={classes.root}>
+    <AppBar
+      position="static"
+      className={classes.root}
+      data-testid="header-wrapper"
+    >
       <h2 className={classes.h2}>Loft Taxi</h2>
       <nav className={classes.nav}>
         <NavLink
@@ -71,6 +75,7 @@ function Header(props) {
             className={classes.navLink}
             activeClassName={classes.navLink_selected}
             onClick={handleClick}
+            data-testid="logout-btn"
           >
             Выйти
           </NavLink>
@@ -79,6 +84,7 @@ function Header(props) {
             to="/login"
             className={classes.navLink}
             activeClassName={classes.navLink_selected}
+            data-testid="login-btn"
           >
             Войти
           </NavLink>
@@ -86,7 +92,7 @@ function Header(props) {
       </nav>
     </AppBar>
   );
-}
+};
 
 export default connect(
   MapStateToProps,
