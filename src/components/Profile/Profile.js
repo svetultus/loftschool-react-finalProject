@@ -24,15 +24,18 @@ const MapStateToProps = state => ({
 });
 const MapDispatchToProps = { userSuccess, checkUserIsPayable };
 
-class Profile extends PureComponent {
-  state = {
-    userName: this.props.userProfile.name,
-    cardNumber: this.props.userProfile.cardNumber,
-    cardName: this.props.userProfile.cardName,
-    expDate: this.props.userProfile.expDate,
-    cvv: this.props.userProfile.cvv,
-    formWasSaved: false
-  };
+export class Profile extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      userName: this.props.userProfile.name,
+      cardNumber: this.props.userProfile.cardNumber,
+      cardName: this.props.userProfile.cardName,
+      expDate: this.props.userProfile.expDate,
+      cvv: this.props.userProfile.cvv,
+      formWasSaved: this.props.formWasSaved
+    };
+  }
 
   onSubmit = e => {
     const { userSuccess, checkUserIsPayable } = this.props;
@@ -63,7 +66,7 @@ class Profile extends PureComponent {
       formWasSaved
     } = this.state;
     return (
-      <Container style={{ width: "50%" }}>
+      <Container style={{ width: "50%" }} data-testid="profile-wrapper">
         <h1>Профиль</h1>
         <h2>Способ оплаты</h2>
         <Form
@@ -90,13 +93,17 @@ class Profile extends PureComponent {
                   <Grid wrap="nowrap" direction="column" container spacing={4}>
                     <Grid item>
                       {formWasSaved && isPayable && (
-                        <FormHelperText>
+                        <FormHelperText
+                          className="t-info-dataWasSaved"
+                          data-testid="info-dataWasSaved"
+                        >
                           Платежные данные сохранены
                         </FormHelperText>
                       )}
                     </Grid>
                     <Grid item>
                       <Field
+                        data-testid="userName"
                         name="userName"
                         component={TextField}
                         label="Имя пользователя"
@@ -106,6 +113,7 @@ class Profile extends PureComponent {
                     <Grid item>
                       <Field
                         name="cardName"
+                        data-testid="cardName"
                         component={TextField}
                         label="Название карты"
                         validate={composeValidators(required, mustBeLetters)}
@@ -114,6 +122,7 @@ class Profile extends PureComponent {
                     <Grid item>
                       <Field
                         name="cardNumber"
+                        data-testid="cardNumber"
                         component={TextField}
                         label="Номер карты"
                         validate={composeValidators(
@@ -126,6 +135,7 @@ class Profile extends PureComponent {
                     <Grid item>
                       <Field
                         name="expDate"
+                        data-testid="expDate"
                         type="date"
                         component={Input}
                         label="Дата окончания действия"
@@ -135,6 +145,7 @@ class Profile extends PureComponent {
                     <Grid item>
                       <Field
                         name="cvv"
+                        data-testid="cvv"
                         component={TextField}
                         label="CVV"
                         validate={composeValidators(
@@ -146,6 +157,7 @@ class Profile extends PureComponent {
                     </Grid>
                     <Grid item>
                       <Button
+                        data-testid="profile-btn-submit"
                         type="submit"
                         disabled={submitting || pristine || hasValidationErrors}
                       >
