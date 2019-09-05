@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     position: "absolute",
     top: 0,
     left: 0,
-    backgrounColor: "white",
+    backgroundColor: "white",
     padding: "10px",
     width: "300px"
   },
@@ -36,13 +36,13 @@ const MapStateToProps = state => ({
 const MapDispatchToProps = { routeRequest, newOrderRequest };
 
 const messageToFillProfile = (
-  <React.Fragment>
+  <div data-testid="messageToFillProfile">
     <h1>Заполните платежные данные</h1>
     <p>Укажите информацию о банковской карте, чтобы сделать заказ.</p>
     <Link tabIndex="0" role="button" to="/profile">
       <span>Перейти в профиль.</span>
     </Link>
-  </React.Fragment>
+  </div>
 );
 
 function FormTaxiRequest(props) {
@@ -57,6 +57,7 @@ function FormTaxiRequest(props) {
     ));
 
   function onSubmit(e) {
+    console.log("onSubmit", e);
     if (!(e.from || e.to)) return false;
 
     let addresses = { address1: e.from, address2: e.to };
@@ -76,7 +77,7 @@ function FormTaxiRequest(props) {
   };
 
   return (
-    <React.Fragment>
+    <div data-testid="formTaxiRequest">
       <h1>Вызов такси</h1>
       <Form
         onSubmit={onSubmit}
@@ -96,6 +97,7 @@ function FormTaxiRequest(props) {
                 <Grid item xs={12}>
                   <Field
                     fullWidth
+                    className="t-mapForm-input-from"
                     name="from"
                     component={Select}
                     label="Выберите пункт отправления"
@@ -107,6 +109,7 @@ function FormTaxiRequest(props) {
                 <Grid item xs={12}>
                   <Field
                     fullWidth
+                    className="t-mapForm-input-to"
                     name="to"
                     component={Select}
                     label="Выберите пункт назначения"
@@ -117,6 +120,7 @@ function FormTaxiRequest(props) {
                 </Grid>
                 <Grid item>
                   <Button
+                    data-testid="mapForm-btn-submit-order"
                     variant="contained"
                     type="submit"
                     disabled={submitting || hasValidationErrors}
@@ -129,24 +133,29 @@ function FormTaxiRequest(props) {
           </form>
         )}
       />
-    </React.Fragment>
+    </div>
   );
 }
 
 function FormNewOrder(props) {
   const { onSubmit } = props;
   return (
-    <React.Fragment>
+    <div data-testid="formNewOrder">
       <h1>Заказ размещён</h1>
       <p>Ваше такси уже едет к вам. Прибудет приблизительно через 10 минут.</p>
-      <Button variant="contained" type="submit" onClick={onSubmit}>
+      <Button
+        data-testid="mapForm-btn-submit-newOrder"
+        variant="contained"
+        type="submit"
+        onClick={onSubmit}
+      >
         Сделать новый заказ
       </Button>
-    </React.Fragment>
+    </div>
   );
 }
 
-function MapForm(props) {
+export function MapForm(props) {
   const {
     className,
     isPayable,
@@ -159,7 +168,7 @@ function MapForm(props) {
   const classes = useStyles();
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} data-testid="MapForm-wrapper">
       {isPayable ? (
         order ? (
           <FormNewOrder onSubmit={newOrderRequest}></FormNewOrder>

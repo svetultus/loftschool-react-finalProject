@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Login } from "./Login";
-import { render, fireEvent, getBy } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 
 describe("Login", () => {
   it("renders without crashing", () => {
@@ -19,7 +19,8 @@ describe("Login", () => {
         <Login isAuthorized={true} />
       </BrowserRouter>
     );
-    expect(location.pathname).toBe("/map");
+    expect(wrapper.getByTestId("map-wrapper")).toBeTruthy();
+    // expect(location.pathname).toBe("/map");
   });
 
   it("Если пользователь не авторизован, есть форма ввода логина", () => {
@@ -45,10 +46,9 @@ describe("Login", () => {
   });
 
   it("если пользователь пытается авторизоваться с неверными данными, остается на странице входа", () => {
-    expect(location.pathname).toBe("/login");
     const wrapper = render(
       <BrowserRouter>
-        <Login isAuthorized={false} />
+        <Login isAuthorized={false} authRequest={jest.fn()} />
       </BrowserRouter>
     );
     fireEvent.change(document.querySelector(".t-input-userName input"), {
@@ -59,10 +59,11 @@ describe("Login", () => {
     });
 
     wrapper.getByTestId("login-btn-submit").click();
-    expect(location.pathname).toBe("/login");
+    expect(wrapper.getByTestId("form-login")).toBeTruthy();
+    // expect(location.pathname).toBe("/login");
   });
 
-  it("если пользователь пытался авторизоваться с неверными данными, получает сообщение об ошибке", () => {
+  it("если есть ошибка авторизации, пользователь получает сообщение об ошибке", () => {
     const wrapper = render(
       <BrowserRouter>
         <Login isAuthorized={false} authError={true} />

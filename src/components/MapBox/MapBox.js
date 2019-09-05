@@ -28,14 +28,10 @@ class MapBox extends React.PureComponent {
     this.props.mapRequest(this.map);
   }
 
-  componentWillUnmount() {
-    // if (this.props.map) this.props.map.remove();
-  }
-
   render() {
     return (
       <React.Fragment>
-        <div ref={this.mapContainer} />
+        <div ref={this.mapContainer} data-testid="map-wrapper" />
 
         <MapForm></MapForm>
       </React.Fragment>
