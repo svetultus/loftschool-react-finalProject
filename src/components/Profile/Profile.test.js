@@ -4,15 +4,15 @@ import { Profile } from "./Profile";
 import { render, fireEvent } from "@testing-library/react";
 
 describe("Profile", () => {
-  describe("Общее поведение", () => {
-    const userProfile = {
-      name: "userName",
-      cardName: "cardName",
-      cardNumber: "cardNumber",
-      expDate: "expDate",
-      cvv: "cvv"
-    };
+  const userProfile = {
+    name: "userName",
+    cardName: "cardName",
+    cardNumber: "cardNumber",
+    expDate: "expDate",
+    cvv: "cvv"
+  };
 
+  describe("Общее поведение", () => {
     it("renders without crashing", () => {
       const wrapper = render(
         <BrowserRouter>
@@ -21,7 +21,9 @@ describe("Profile", () => {
       );
       expect(wrapper.getByTestId("profile-wrapper")).toBeTruthy();
     });
+  });
 
+  describe("Сообщение о сохранении платежных данных", () => {
     it("пользователь не видит сообщение о том, что  платежные данные были сохранены, если форма не изменялась", () => {
       const wrapper = render(
         <BrowserRouter>
@@ -51,11 +53,29 @@ describe("Profile", () => {
         "Платежные данные сохранены"
       );
     });
+  });
 
+  describe("кнопка Cохранить", () => {
     it("кнопка сохранить не доступна, если не введены данные", () => {
       const wrapper = render(
         <BrowserRouter>
           <Profile formWasSaved={false} isPayable={false} userProfile={{}} />
+        </BrowserRouter>
+      );
+      expect(wrapper.getByTestId("profile-btn-submit")).toHaveProperty(
+        "disabled",
+        true
+      );
+    });
+
+    it("кнопка сохранить не доступна, если  данные не изменялись", () => {
+      const wrapper = render(
+        <BrowserRouter>
+          <Profile
+            formWasSaved={false}
+            isPayable={false}
+            userProfile={userProfile}
+          />
         </BrowserRouter>
       );
       expect(wrapper.getByTestId("profile-btn-submit")).toHaveProperty(
@@ -85,7 +105,9 @@ describe("Profile", () => {
         true
       );
     });
+  });
 
+  describe("поле userName", () => {
     it("при потере фокуса поле userName не должно быть пустым, иначе выводится ошибка валидации", () => {
       const wrapper = render(
         <BrowserRouter>
@@ -107,7 +129,9 @@ describe("Profile", () => {
         ).textContent
       ).toContain("Обязательное поле");
     });
+  });
 
+  describe("поле cardName", () => {
     it("при потере фокуса поле cardName не должно быть пустым,  иначе выводится ошибка валидации", () => {
       const wrapper = render(
         <BrowserRouter>
@@ -145,7 +169,9 @@ describe("Profile", () => {
         ).textContent
       ).toContain("Можно использовать только буквы");
     });
+  });
 
+  describe("поле cardNumber", () => {
     it("при потере фокуса поле cardNumber не должно быть пустым,  иначе выводится ошибка валидации", () => {
       const wrapper = render(
         <BrowserRouter>
@@ -201,6 +227,39 @@ describe("Profile", () => {
           "[data-testid='cardNumber'] .MuiFormHelperText-root.Mui-error"
         ).textContent
       ).toContain("Количество знаков должно быть");
+    });
+  });
+
+  describe("Submit формы", () => {
+    it("после введения данных происходит и сабмита формы вызываются userSuccess, checkUserIsPayable,", () => {
+      const userSuccess = jest.fn("user");
+      const checkUserIsPayable = jest.fn();
+      const wrapper = render(
+        <BrowserRouter>
+          <Profile
+            formWasSaved={false}
+            isPayable={false}
+            userProfile={userProfile}
+            userSuccess={userSuccess}
+            checkUserIsPayable={checkUserIsPayable}
+          />
+        </BrowserRouter>
+      );
+      const input = document.querySelector("[data-testid='userName'] input");
+      fireEvent.focus(input);
+      fireEvent.change(input, {
+        target: { value: "Username99" }
+      });
+      fireEvent.blur(input);
+      expect(wrapper.getByTestId("profile-btn-submit")).toHaveProperty(
+        "disabled",
+        true
+      );
+      //   fireEvent.submit(wrapper.getByTestId("profile-form"));
+      fireEvent.click(wrapper.getByTestId("profile-btn-submit"));
+
+      expect(userSuccess).toHaveBeenCalled();
+      expect(checkUserIsPayable).toHaveBeenCalled();
     });
   });
 });

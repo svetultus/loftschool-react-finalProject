@@ -49,7 +49,6 @@ export class Profile extends PureComponent {
         cvv: cvv
       }
     };
-
     userSuccess(user);
     checkUserIsPayable(user);
     this.setState({ formWasSaved: true });
@@ -65,6 +64,7 @@ export class Profile extends PureComponent {
       cvv,
       formWasSaved
     } = this.state;
+
     return (
       <Container style={{ width: "50%" }} data-testid="profile-wrapper">
         <h1>Профиль</h1>
@@ -89,7 +89,7 @@ export class Profile extends PureComponent {
           }) => {
             return (
               <React.Fragment>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} data-testid="profile-form">
                   <Grid wrap="nowrap" direction="column" container spacing={4}>
                     <Grid item>
                       {formWasSaved && isPayable && (
